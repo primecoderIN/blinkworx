@@ -1,3 +1,4 @@
+import jwt_decode from "jwt-decode";
 import {
   createContext,
   useContext,
@@ -9,19 +10,20 @@ import { useLocation, useNavigate } from "react-router-dom";
 import AuthReducer from "../reducers/AuthReducer";
 import { create } from "axios";
 import {
-  HIDE_SPINNER_AFTER_LOGIN_REQUEST,
+  HIDE_SPINNER,
   SET_IS_LOGGED_IN_FALSE,
   SET_IS_LOGGED_IN_TRUE,
   SET_LOGIN_ERROR_TYPE,
-  SHOW_SPINNER_ON_LOGIN_REQUEST,
+  SHOW_SPINNER,
 } from "../actions/auth-context";
 
 const initialState = {
   isLoggedIn: false,
-  showSpinnerOnLogin: false,
+  showSpinner: false,
   username: "",
   password: "",
   errorType: "",
+  successMsg: "",
 };
 
 const AuthContext = createContext();
@@ -71,50 +73,84 @@ export const AuthProvider = ({ children }) => {
     }
   );
 
-  const handleLogin = async (e) => {
-    e.preventDefault();
-    if (!state.username && state.password) {
-      dispatch({ type: SET_LOGIN_ERROR_TYPE, payload: "username" });
+  const handleRegistration = async (name, email, password) => {
+    if (!name || !email || !password) {
+      dispatch({
+        type: SET_LOGIN_ERROR_TYPE,
+        payload: "All fields are mandatory",
+      });
+      return;
     }
-
-    if (!state.password && state.username) {
-      dispatch({ type: SET_LOGIN_ERROR_TYPE, payload: "password" });
-    }
-
-    if (!state.username && !state.password) {
-      dispatch({ type: SET_LOGIN_ERROR_TYPE, payload: "noInput" });
-    }
-
-    if (state.username && state.password) {
-      dispatch({ type: SHOW_SPINNER_ON_LOGIN_REQUEST });
+    if (name && email && password) {
+      dispatch({ type: SHOW_SPINNER });
       try {
-        const response = await axiosRequests.post("/login", {
-          username: state.username,
-          password: state.password,
+        const response = await axiosRequests.post("/auth/register", {
+          name,
+          email,
+          password,
         });
-        if (response.data && response.status === 200) {
-          localStorage.setItem(
-            "Token",
-            JSON.stringify(response.data.JwtAuthenticationToken.Token)
-          );
-          dispatch({ type: HIDE_SPINNER_AFTER_LOGIN_REQUEST });
+        if (response.data && response.status === 201) {
+          dispatch({ type: HIDE_SPINNER });
+          const token = response.data.Token;
+          localStorage.setItem("Token", JSON.stringify(token));
+          const { isAdmin } = jwt_decode(token);
           location.state?.from
             ? navigate(location.state.from)
-            : navigate("/Dashboard");
+            : isAdmin
+            ? navigate("/AdminPanel")
+            : navigate("/orders");
           dispatch({ type: SET_IS_LOGGED_IN_TRUE });
-          //   setErrorType("");
         }
       } catch (e) {
-        dispatch({ type: HIDE_SPINNER_AFTER_LOGIN_REQUEST });
-        dispatch({ type: SET_LOGIN_ERROR_TYPE, payload: "wrongInput" });
-        // setPassword("");
+        dispatch({ type: HIDE_SPINNER });
+        dispatch({ type: SET_LOGIN_ERROR_TYPE, payload: "Invalid inputs!" });
+      }
+    }
+  };
+
+  const handleLogin = async (email, password) => {
+    if (!email || !password) {
+      dispatch({
+        type: SET_LOGIN_ERROR_TYPE,
+        payload: "All fields are mandatory!",
+      });
+      return;
+    }
+
+    if (email && password) {
+      dispatch({ type: SHOW_SPINNER });
+      try {
+        const response = await axiosRequests.post("/auth/login", {
+          email,
+          password,
+        });
+        if (response.data && response.status === 200) {
+          const token = response.data.Token;
+          const { isAdmin } = jwt_decode(token);
+          localStorage.setItem("Token", JSON.stringify(token));
+          dispatch({ type: SET_IS_LOGGED_IN_TRUE });
+          location.state?.from
+            ? navigate(location.state.from)
+            : isAdmin
+            ? navigate("/AdminPanel")
+            : navigate("/orders");
+        }
+        dispatch({ type: HIDE_SPINNER });
+      } catch (e) {
+        dispatch({ type: HIDE_SPINNER });
+        dispatch({
+          type: SET_LOGIN_ERROR_TYPE,
+          payload: "Invalid credentials!",
+        });
       }
     }
   };
 
   return (
-    <AuthContext.Provider value={{ ...state }}>{children}</AuthContext.Provider>
+    <AuthContext.Provider value={{ ...state, handleLogin, handleRegistration }}>
+      {children}
+    </AuthContext.Provider>
   );
 };
 
-export const useAppContext = () => useContext(AuthContext);
+export const useAuthContext = () => useContext(AuthContext);

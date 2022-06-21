@@ -1,19 +1,19 @@
 import {
-  HIDE_SPINNER_AFTER_LOGIN_REQUEST,
+  HIDE_SPINNER,
   SET_IS_LOGGED_IN_FALSE,
   SET_IS_LOGGED_IN_TRUE,
   SET_LOGIN_ERROR_TYPE,
   SET_PASSWORD,
   SET_USERNAME,
-  SHOW_SPINNER_ON_LOGIN_REQUEST,
+  SHOW_SPINNER,
 } from "../actions/auth-context";
 
 const AuthReducer = (state, action) => {
-  if (action.type === SHOW_SPINNER_ON_LOGIN_REQUEST) {
-    return { ...state, showLoaderOnLogin: true };
+  if (action.type === SHOW_SPINNER) {
+    return { ...state, showSpinner: true };
   }
-  if (action.type === HIDE_SPINNER_AFTER_LOGIN_REQUEST) {
-    return { ...state, showLoaderOnLogin: false };
+  if (action.type === HIDE_SPINNER) {
+    return { ...state, showSpinner: false };
   }
   if (action.type === SET_IS_LOGGED_IN_TRUE) {
     return { ...state, isLoggedIn: true };
@@ -30,6 +30,7 @@ const AuthReducer = (state, action) => {
   if (action.type === SET_LOGIN_ERROR_TYPE) {
     return { ...state, errorType: action.payload };
   }
+
   return state;
 };
 

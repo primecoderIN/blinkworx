@@ -1,3 +1,4 @@
+import {useState} from "react"
 import {
   AppBar,
   Toolbar,
@@ -9,8 +10,10 @@ import {
   Button,
 } from "@mui/material";
 import PetsIcon from "@mui/icons-material/Pets";
+import { getUserDetails } from "../utils/helpers";
 
 const Navbar = () => {
+  const [user]  = useState(getUserDetails)
   return (
     <AppBar position="sticky">
       <Toolbar>
@@ -29,7 +32,7 @@ const Navbar = () => {
           component="div"
           sx={{ display: "flex", alignItems: "center", gap: "10px" }}
         >
-          <Typography variant="h6">Hi, Sanjeev</Typography>
+          <Typography variant="h6">{user?.name}</Typography>
           <Avatar />
         </Box>
       </Toolbar>
