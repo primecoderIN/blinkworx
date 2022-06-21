@@ -1,24 +1,25 @@
 import { Routes, Route } from "react-router-dom";
-import Accordian from "./components/Accordian";
+
+import Navbar from "./components/Navbar";
 import CreateOrder from "./pages/CreateOrder";
 import OrderManagementScreen from "./pages/OrderManagementScreen";
+import AuthScreen from "./pages/AuthScreen";
 const App = () => {
   return (
+    <>
+    <Navbar/>
+
     <Routes>
       <Route
         index
         element={
-          <Accordian
-            children={<h1>Hello World</h1>}
-            ProductName="Apple I-Phone 13"
-            ProductSubText="This is phone"
-            isPhone
-          />
+         <AuthScreen/>
         }
       />
       <Route path="/Orders" element={<OrderManagementScreen />} />
       <Route path="/CreateOrder" element={<CreateOrder />} />
     </Routes>
+    </>
   );
 };
 

@@ -47,6 +47,8 @@ const Accordian = ({
                 size="small"
                 variant="contained"
                 color={`${isPhone ? "primary" : "secondary"}`}
+                onClick={(e)=> e.stopPropagation()}
+                sx={{borderRadius: "0",border: "none"}}
               >
                 YES
               </Button>
@@ -54,6 +56,8 @@ const Accordian = ({
                 size="small"
                 variant="contained"
                 color={`${isPhone ? "primary" : "secondary"}`}
+                onClick={(e)=> e.stopPropagation()}
+                sx={{borderRadius: "0",border: "none" }}
               >
                 NO
               </Button>
