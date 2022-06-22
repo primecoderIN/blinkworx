@@ -1,13 +1,14 @@
 import { Routes, Route, Navigate } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import CreateOrder from "./pages/CreateOrder";
-import OrderManagementScreen from "./pages/OrderManagementScreen";
+
 import AuthScreen from "./pages/AuthScreen";
 import AdminScreen from "./pages/AdminScreen";
 import AppLayout from "./router/AppLayout";
 import RequireAuth from "./router/RequireAuth";
 import { getUserDetails } from "./utils/helpers";
 import NoModuleAccess from "./pages/NoModuleAccess";
+import OrderScreenUser from "./pages/OrderScreenUser";
 const App = () => {
   const user  = getUserDetails()
   return (
@@ -21,7 +22,7 @@ const App = () => {
             <Route
               path="/Orders"
               element={
-                !user?.isAdmin ? <OrderManagementScreen /> : <NoModuleAccess />
+                !user?.isAdmin ? <OrderScreenUser /> : <NoModuleAccess />
               }
             />
           </Route>
