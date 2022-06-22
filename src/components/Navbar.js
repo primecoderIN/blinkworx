@@ -1,4 +1,3 @@
-import {useState} from "react"
 import {
   AppBar,
   Toolbar,
@@ -11,9 +10,11 @@ import {
 } from "@mui/material";
 import PetsIcon from "@mui/icons-material/Pets";
 import { getUserDetails } from "../utils/helpers";
+import { useAuthContext } from "../contexts/AuthContext";
 
 const Navbar = () => {
-  const [user]  = useState(getUserDetails)
+  const user = getUserDetails();
+  const { isLoggedIn,logout } = useAuthContext();
   return (
     <AppBar position="sticky">
       <Toolbar>
@@ -28,13 +29,16 @@ const Navbar = () => {
           <Button color="inherit">Menu2</Button>
           <Button color="inherit">Menu3</Button>
         </Stack>
-        <Box
-          component="div"
-          sx={{ display: "flex", alignItems: "center", gap: "10px" }}
-        >
-          <Typography variant="h6">{user?.name}</Typography>
-          <Avatar />
-        </Box>
+        {isLoggedIn && (
+          <Box
+            component="div"
+            sx={{ display: "flex", alignItems: "center", gap: "10px" }}
+          >
+            <Typography variant="h6">{user?.name}</Typography>
+            <Avatar />
+            <Button onClick={logout} sx={{backgroundColor: "red",color: "#fff"}}>Logout</Button>
+          </Box>
+        )}
       </Toolbar>
     </AppBar>
   );

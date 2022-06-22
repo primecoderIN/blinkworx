@@ -41,9 +41,10 @@ export const AuthProvider = ({ children }) => {
   }, [state.isLoggedIn]);
 
   const logout = () => {
+    console.log("hello")
     dispatch({ type: SET_IS_LOGGED_IN_FALSE });
     localStorage.removeItem("Token");
-    navigate("/Account/Login", { state: { from: location } });
+    navigate("/Account/Auth", { state: { from: location } });
   };
 
   const axiosInstance = create({
@@ -147,7 +148,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ ...state, handleLogin, handleRegistration }}>
+    <AuthContext.Provider value={{ ...state, handleLogin, handleRegistration,logout }}>
       {children}
     </AuthContext.Provider>
   );
