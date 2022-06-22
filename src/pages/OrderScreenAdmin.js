@@ -1,7 +1,7 @@
-const OrderScreenAdmin = () => {
-  return (
-    <div>OrderScreenAdmin</div>
-  )
-}
+import OrderTable from "../components/OrderTable";
 
-export default OrderScreenAdmin
+const OrderScreenAdmin = () => {
+  return <OrderTable />;
+};
+
+export default OrderScreenAdmin;
