@@ -11,8 +11,10 @@ import {
 import PetsIcon from "@mui/icons-material/Pets";
 import { getUserDetails } from "../utils/helpers";
 import { useAuthContext } from "../contexts/AuthContext";
+import { useLocation } from "react-router-dom";
 
 const Navbar = () => {
+  const location = useLocation()
   const user = getUserDetails();
   const { isLoggedIn,logout } = useAuthContext();
   return (
@@ -29,7 +31,7 @@ const Navbar = () => {
           <Button color="inherit">Menu2</Button>
           <Button color="inherit">Menu3</Button>
         </Stack>
-        {isLoggedIn && (
+        {isLoggedIn && location.pathname!=="/Account/Auth" && (
           <Box
             component="div"
             sx={{ display: "flex", alignItems: "center", gap: "10px" }}

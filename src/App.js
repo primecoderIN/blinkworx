@@ -11,9 +11,11 @@ import OrderScreenUser from "./pages/OrderScreenUser";
 import { UserContextProvider } from "./contexts/UserContext";
 import { AdminContextProvider } from "./contexts/AdminContext";
 import OrderScreenAdmin from "./pages/OrderScreenAdmin";
+import { useState } from "react";
 const App = () => {
-  const user = getUserDetails();
-  console.log(user)
+  const [user] = useState(getUserDetails)
+
+
   return (
     <>
       <Navbar />
