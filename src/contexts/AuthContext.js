@@ -95,11 +95,7 @@ export const AuthProvider = ({ children }) => {
           const token = response.data.Token;
           localStorage.setItem("Token", JSON.stringify(token));
           const { isAdmin } = jwt_decode(token);
-          location.state?.from
-            ? navigate(location.state.from)
-            : isAdmin
-            ? navigate("/AdminPanel")
-            : navigate("/orders");
+           isAdmin? navigate("/AdminPanel")  : navigate("/orders");
           dispatch({ type: SET_IS_LOGGED_IN_TRUE });
         }
       } catch (e) {
@@ -130,9 +126,7 @@ export const AuthProvider = ({ children }) => {
           const { isAdmin } = jwt_decode(token);
           localStorage.setItem("Token", JSON.stringify(token));
           dispatch({ type: SET_IS_LOGGED_IN_TRUE });
-          location.state?.from
-            ? navigate(location.state.from)
-            : isAdmin
+           isAdmin
             ? navigate("/AdminPanel")
             : navigate("/orders");
         }
@@ -148,7 +142,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ ...state, handleLogin, handleRegistration,logout }}>
+    <AuthContext.Provider value={{ ...state, handleLogin, handleRegistration,logout,axiosRequests }}>
       {children}
     </AuthContext.Provider>
   );

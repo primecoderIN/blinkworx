@@ -32,7 +32,13 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
 const StyledTableHead = styled(TableHead)(({ theme }) => ({
   backgroundColor: "lightblue",
 }));
-const OrderTable = ({ showSearchInput, showCreateOrderButton,onInputChange}) => {
+const OrderTable = ({
+  showSearchInput,
+  showCreateOrderButton,
+  onInputChange,
+  orders,
+}) => {
+  console.log("hello",orders)
   const navigate = useNavigate();
   return (
     <Box width="80%" mx="auto" mt="4rem">
@@ -40,7 +46,11 @@ const OrderTable = ({ showSearchInput, showCreateOrderButton,onInputChange}) => 
         <Typography variant="h4">Order Management Screen</Typography>
         {showSearchInput && (
           <Search>
-            <InputBase onChange={onInputChange} fullWidth placeholder="Search by order description..." />
+            <InputBase
+              onChange={onInputChange}
+              fullWidth
+              placeholder="Search by order description..."
+            />
           </Search>
         )}
       </Stack>
@@ -62,35 +72,50 @@ const OrderTable = ({ showSearchInput, showCreateOrderButton,onInputChange}) => 
             </TableRow>
           </StyledTableHead>
           <TableBody>
-            <TableRow>
-              <StyledTableCell component="th" scope="row">
-                234
-              </StyledTableCell>
-              <StyledTableCell align="left">
-                Order from customer 1
-              </StyledTableCell>
-              <StyledTableCell align="left">
-                <Stack direction="row">
-                  <Typography mx="2px" flexGrow={1} border="1px solid red">
-                    Electronics
-                  </Typography>
-                  <Typography mx="2px" flexGrow={1} border="1px solid green">
-                    Groceries
-                  </Typography>
-                </Stack>
-              </StyledTableCell>
-              <StyledTableCell align="right">50%</StyledTableCell>
-              <StyledTableCell align="right">Sanjeev Kumar</StyledTableCell>
-              <StyledTableCell align="right">22-06-01</StyledTableCell>
-              <StyledTableCell align="center">
-                <IconButton>
-                  <EditIcon />
-                </IconButton>
-                <IconButton>
-                  <DeleteIcon />
-                </IconButton>
-              </StyledTableCell>
-            </TableRow>
+            {orders.map((order) => {
+              return (
+                <TableRow key={order.id}>
+                  <StyledTableCell component="th" scope="row">
+                    {order.id}
+                  </StyledTableCell>
+                  <StyledTableCell align="left">
+                    {order.orderDescription}
+                  </StyledTableCell>
+                  <StyledTableCell align="left">
+                    <Stack direction="row">
+                      <Typography mx="2px" flexGrow={1} border="1px solid red">
+                        Electronics : {order.countOfItemTypes.Electronics}
+                      </Typography>
+                      <Typography
+                        mx="2px"
+                        flexGrow={1}
+                        border="1px solid green"
+                      >
+                        Groceries : {order.countOfItemTypes.Groceries}
+                      </Typography>
+                    </Stack>
+                  </StyledTableCell>
+                  <StyledTableCell align="right">
+                    {(order.countOfItemTypes.Electronics / orders.length) * 100}
+                    %
+                  </StyledTableCell>
+                  <StyledTableCell align="right">
+                    {order.createdBy || "N/A"}
+                  </StyledTableCell>
+                  <StyledTableCell align="right">
+                    {order.createdAt}
+                  </StyledTableCell>
+                  <StyledTableCell align="center">
+                    <IconButton>
+                      <EditIcon />
+                    </IconButton>
+                    <IconButton>
+                      <DeleteIcon />
+                    </IconButton>
+                  </StyledTableCell>
+                </TableRow>
+              );
+            })}
           </TableBody>
         </Table>
       </TableContainer>
