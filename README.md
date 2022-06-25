@@ -1,10 +1,10 @@
-# Getting Started with Create React App
+# Getting Started with This Project
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This project is live and can be accessed at [Blinkworx Demo App](https://blinkworx.netlify.app/Account/Auth).
 
 ## Available Scripts
 
-In the project directory, you can run:
+If you want to run it from vs code then, you can run:
 
 ### `npm start`
 
