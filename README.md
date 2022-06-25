@@ -21,9 +21,9 @@ Admin can not create any order. But admin can see all the orders from all the us
 
 You can use these credentials to access admin panel.
 
-Admin User ID : primecoderin@gmai.com
+Email : primecoderin@gmai.com
 
-Password: 9582079478
+Password : 9582079478
 
 
 
@@ -33,7 +33,7 @@ Only user can see this order screen and create order. Created by column in order
 
 You can use this credential to see user screen : 
 
-User ID: sujeet@gmail.com
+Email : sujeet@gmail.com
 
 Password : 123
 
