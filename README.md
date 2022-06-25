@@ -4,7 +4,7 @@ This project is live and can be accessed at [Blinkworx Demo App](https://blinkwo
 
 ## Available Scripts
 
-If you want to run it from vs code then, you can run ### `npm start`
+If you want to run it from vs code then, you can run  `npm start`
 
 
 ### `Home page `
