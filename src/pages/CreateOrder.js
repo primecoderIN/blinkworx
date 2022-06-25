@@ -82,12 +82,14 @@ const CreateOrder = () => {
               Cancel
             </Button>
             <Button
+              disabled={newOrder?.itemTypes?.length === 0}
               onClick={createOrder}
               fullWidth
               sx={{
                 backgroundColor: "green",
                 color: "#fff",
                 ":hover": { backgroundColor: "green", color: "#fff" },
+                ":disabled": { backgroundColor: "lightgrey", color: "#fff" },
               }}
             >
               Book Order
