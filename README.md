@@ -4,10 +4,7 @@ This project is live and can be accessed at [Blinkworx Demo App](https://blinkwo
 
 ## Available Scripts
 
-If you want to run it from vs code then, you can run:
-
-### `npm start`
-
+If you want to run it from vs code then, you can run ### `npm start`
 
 
 ### `Home page `
@@ -15,6 +12,8 @@ If you want to run it from vs code then, you can run:
 Auth screen is the home page from where you can login or register. 
 
 After successful registration of login you will be redirected to your order screen.
+
+Admin can not see user screen when logged in and users can not see admin screen when they are logged in.
 
 ### `Admin Screen Panel`
 
