@@ -14,9 +14,9 @@ import { useAuthContext } from "../contexts/AuthContext";
 import { useLocation } from "react-router-dom";
 
 const Navbar = () => {
-  const location = useLocation()
+  const location = useLocation();
   const user = getUserDetails();
-  const { isLoggedIn,logout } = useAuthContext();
+  const { isLoggedIn, logout } = useAuthContext();
   return (
     <AppBar position="sticky">
       <Toolbar>
@@ -31,14 +31,19 @@ const Navbar = () => {
           <Button color="inherit">Menu2</Button>
           <Button color="inherit">Menu3</Button>
         </Stack>
-        {isLoggedIn && location.pathname!=="/Account/Auth" && (
+        {isLoggedIn && location.pathname !== "/Account/Auth" && (
           <Box
             component="div"
             sx={{ display: "flex", alignItems: "center", gap: "10px" }}
           >
             <Typography variant="h6">{user?.name}</Typography>
             <Avatar />
-            <Button onClick={logout} sx={{backgroundColor: "red",color: "#fff"}}>Logout</Button>
+            <Button
+              onClick={logout}
+              sx={{ backgroundColor: "red", color: "#fff" }}
+            >
+              Logout
+            </Button>
           </Box>
         )}
       </Toolbar>

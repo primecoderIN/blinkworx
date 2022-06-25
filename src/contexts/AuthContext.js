@@ -3,7 +3,6 @@ import {
   createContext,
   useContext,
   useReducer,
-  useCallback,
   useEffect,
 } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -47,12 +46,12 @@ export const AuthProvider = ({ children }) => {
     navigate("/Account/Auth", { state: { from: location } });
   };
 
-  const axiosInstance = create({
+  const axiosRequests = create({
     baseURL: "https://primecoderapi.herokuapp.com/api/v1",
     headers: { "Content-Type": "application/json" },
   });
 
-  const axiosRequests = useCallback(axiosInstance, [axiosInstance]);
+ 
 
   axiosRequests.interceptors.request.use((config) => {
     const accessToken = localStorage.getItem("Token");

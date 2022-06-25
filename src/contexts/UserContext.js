@@ -1,10 +1,17 @@
-import { createContext, useContext, useReducer, useEffect } from "react";
+import {
+  createContext,
+  useContext,
+  useReducer,
+  useEffect,
+  useCallback,
+} from "react";
 import { SAVE_USER_SCREEN_ORDER_DATA } from "../actions/user-context";
 import AppReducer from "../reducers/UserReducer";
 import { useAuthContext } from "./AuthContext";
 
 const initialState = {
   orders: [],
+  newOrder: {},
 };
 
 const UserContext = createContext();
@@ -19,10 +26,19 @@ export const UserContextProvider = ({ children }) => {
         dispatch({ type: SAVE_USER_SCREEN_ORDER_DATA, payload: allOrders })
       )
       .catch((err) => console.log(err));
-  }, []);
+  }, [axiosRequests]);
+
+  const createOrder = useCallback(() => {
+    axiosRequests
+      .post("/orders", state.newOrder)
+      .then((res) => console.log(res.data))
+      .catch((err) => console.log(err));
+  }, [state.newOrder, axiosRequests]);
 
   return (
-    <UserContext.Provider value={{ ...state }}>{children}</UserContext.Provider>
+    <UserContext.Provider value={{ ...state, createOrder }}>
+      {children}
+    </UserContext.Provider>
   );
 };
 

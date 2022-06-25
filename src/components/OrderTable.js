@@ -39,7 +39,6 @@ const OrderTable = ({
   onInputChange,
   orders,
 }) => {
-  console.log("hello",orders)
   const navigate = useNavigate();
   return (
     <Box width="80%" mx="auto" mt="4rem">
@@ -97,7 +96,10 @@ const OrderTable = ({
                     </Stack>
                   </StyledTableCell>
                   <StyledTableCell align="right">
-                    {(order.countOfItemTypes.Electronics / (order.countOfItemTypes.Electronics+order.countOfItemTypes.Groceries)) * 100}
+                    {(order.countOfItemTypes.Electronics /
+                      (order.countOfItemTypes.Electronics +
+                        order.countOfItemTypes.Groceries)) *
+                      100}
                     %
                   </StyledTableCell>
                   <StyledTableCell align="right">
