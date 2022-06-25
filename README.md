@@ -29,7 +29,7 @@ Password: 9582079478
 
 ### `User Screens`
 
-Only user can see this order screen and create order. 
+Only user can see this order screen and create order. Created by will be "N/A" for users as they already know that they created it.
 
 You can use this credential to see user screen : 
 
