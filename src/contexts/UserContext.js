@@ -9,12 +9,15 @@ import { useLocation, useNavigate } from "react-router-dom";
 import {
   HANDLE_ORDER,
   HANDLE_ORDER_DESCRIPTION,
+  HIDE_SPINNER,
   SAVE_USER_SCREEN_ORDER_DATA,
+  SHOW_SPINNER,
 } from "../actions/user-context";
 import AppReducer from "../reducers/UserReducer";
 import { useAuthContext } from "./AuthContext";
 
 const initialState = {
+  isOrderLoading: false,
   orders: [],
   newOrder: {
     orderDescription: "",
@@ -44,10 +47,13 @@ export const UserContextProvider = ({ children }) => {
 
   useEffect(() => {
     if (location.pathname === "/orders") {
+      dispatch({type: SHOW_SPINNER})
       axiosRequests
         .get("/orders")
-        .then(({ data: { allOrders } }) =>
+        .then(({ data: { allOrders } }) =>{
           dispatch({ type: SAVE_USER_SCREEN_ORDER_DATA, payload: allOrders })
+          dispatch({type: HIDE_SPINNER})
+        }
         )
         .catch((err) => console.log(err));
     }

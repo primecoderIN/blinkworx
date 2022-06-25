@@ -1,10 +1,18 @@
 import {
   HANDLE_ORDER,
   HANDLE_ORDER_DESCRIPTION,
+  HIDE_SPINNER,
   SAVE_USER_SCREEN_ORDER_DATA,
+  SHOW_SPINNER,
 } from "../actions/user-context";
 
 const UserReducer = (state, action) => {
+  if (action.type === SHOW_SPINNER) {
+    return { ...state, isOrderLoading: true };
+  }
+  if (action.type === HIDE_SPINNER) {
+    return { ...state, isOrderLoading: false };
+  }
   if (action.type === SAVE_USER_SCREEN_ORDER_DATA) {
     return { ...state, orders: action.payload };
   }
@@ -20,8 +28,11 @@ const UserReducer = (state, action) => {
     };
   }
 
-  if(action.type=== HANDLE_ORDER_DESCRIPTION){
-    return {...state, newOrder: {...state.newOrder, orderDescription: action.payload}}
+  if (action.type === HANDLE_ORDER_DESCRIPTION) {
+    return {
+      ...state,
+      newOrder: { ...state.newOrder, orderDescription: action.payload },
+    };
   }
   return state;
 };

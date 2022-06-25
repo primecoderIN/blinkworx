@@ -3,10 +3,10 @@ import OrderTable from "../components/OrderTable";
 import { useUserContext } from "../contexts/UserContext";
 
 const OrderScreenUser = () => {
-  const { orders } = useUserContext();
+  const { orders, isOrderLoading } = useUserContext();
   return (
     <>
-      {orders.length > 0 ? (
+      { !isOrderLoading ? (
         <OrderTable
           showCreateOrderButton={true}
           showSearchInput={true}
