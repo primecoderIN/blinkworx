@@ -26,7 +26,7 @@ export const UserContextProvider = ({ children }) => {
         dispatch({ type: SAVE_USER_SCREEN_ORDER_DATA, payload: allOrders })
       )
       .catch((err) => console.log(err));
-  }, [axiosRequests]);
+  }, []);
 
   const createOrder = useCallback(() => {
     axiosRequests
