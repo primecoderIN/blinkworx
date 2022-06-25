@@ -39,7 +39,14 @@ const App = () => {
           </Route>
 
           <Route element={<RequireAuth Role="User" />}>
-            <Route path="/CreateOrder" element={<CreateOrder />} />
+            <Route
+              path="/CreateOrder"
+              element={
+                <UserContextProvider>
+                  <CreateOrder />
+                </UserContextProvider>
+              }
+            />
           </Route>
         </Route>
       </Routes>

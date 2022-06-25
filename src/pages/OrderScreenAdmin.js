@@ -1,4 +1,4 @@
-import { CircularProgress, Typography } from "@mui/material";
+import { CircularProgress } from "@mui/material";
 import { Box } from "@mui/system";
 import OrderTable from "../components/OrderTable";
 import { useAdminContext } from "../contexts/AdminContext";

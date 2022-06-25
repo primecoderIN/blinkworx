@@ -5,19 +5,41 @@ import {
   useEffect,
   useCallback,
 } from "react";
-import { SAVE_USER_SCREEN_ORDER_DATA } from "../actions/user-context";
+import { useNavigate } from "react-router-dom";
+import {
+  HANDLE_ORDER,
+  HANDLE_ORDER_DESCRIPTION,
+  SAVE_USER_SCREEN_ORDER_DATA,
+} from "../actions/user-context";
 import AppReducer from "../reducers/UserReducer";
 import { useAuthContext } from "./AuthContext";
 
 const initialState = {
   orders: [],
-  newOrder: {},
+  newOrder: {
+    orderDescription: "",
+    itemTypes: [
+      {
+        id: 1,
+        itemTypeName: "Electronics",
+      },
+      {
+        id: 2,
+        itemTypeName: "Groceries",
+      },
+    ],
+    allItems: [],
+  },
 };
 
 const UserContext = createContext();
 export const UserContextProvider = ({ children }) => {
   const [state, dispatch] = useReducer(AppReducer, initialState);
   const { axiosRequests } = useAuthContext();
+  const navigate = useNavigate();
+  const handleCreatedOrder = (id, entry) => {
+    dispatch({ type: HANDLE_ORDER, payload: { id, entry } });
+  };
 
   useEffect(() => {
     axiosRequests
@@ -28,15 +50,30 @@ export const UserContextProvider = ({ children }) => {
       .catch((err) => console.log(err));
   }, []);
 
+  const handleOrderDescription = (e) => {
+    dispatch({ type: HANDLE_ORDER_DESCRIPTION, payload: e.target.value });
+  };
+
   const createOrder = useCallback(() => {
     axiosRequests
       .post("/orders", state.newOrder)
-      .then((res) => console.log(res.data))
+      .then((res) => {
+        if (res.status === 201) {
+          navigate("/orders");
+        }
+      })
       .catch((err) => console.log(err));
   }, [state.newOrder, axiosRequests]);
 
   return (
-    <UserContext.Provider value={{ ...state, createOrder }}>
+    <UserContext.Provider
+      value={{
+        ...state,
+        createOrder,
+        handleCreatedOrder,
+        handleOrderDescription,
+      }}
+    >
       {children}
     </UserContext.Provider>
   );

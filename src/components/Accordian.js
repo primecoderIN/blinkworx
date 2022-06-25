@@ -1,4 +1,3 @@
-import { useState } from "react";
 import {
   Accordion,
   AccordionSummary,
@@ -13,20 +12,12 @@ import { ExpandMore } from "@mui/icons-material";
 const Accordian = ({
   children, //Pass a react component to be rendered as accordian item
   onButtonClick, //Pass a function to choose if a product is phone or not
-  ProductName,
-  ProductSubText,
-  isPhone,
-  productDetails = {
-    id: "",
-    itemTypeId: "",
-    itemName: "",
-    itemDescription: "",
-    itemSpecifications: "",
-  },
+  ProductName = "",
+  ProductSubText = "",
+  isPhone = true,
 }) => {
-  const [product, setProduct] = useState(productDetails);
   return (
-    <Accordion TransitionProps={{ unmountOnExit: true }}>
+    <Accordion>
       <AccordionSummary
         expandIcon={<ExpandMore />}
         aria-controls="panel1a-content"
