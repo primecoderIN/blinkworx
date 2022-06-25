@@ -55,7 +55,7 @@ export const UserContextProvider = ({ children }) => {
           dispatch({type: HIDE_SPINNER})
         }
         )
-        .catch((err) => console.log(err));
+        .catch((err) => dispatch({type: HIDE_SPINNER}));
     }
   }, [location.pathname]);
 
