@@ -2,20 +2,14 @@ import { Routes, Route, Navigate } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import CreateOrder from "./pages/CreateOrder";
 import AuthScreen from "./pages/AuthScreen";
-import AdminScreen from "./pages/AdminScreen";
 import AppLayout from "./router/AppLayout";
 import RequireAuth from "./router/RequireAuth";
-import { getUserDetails } from "./utils/helpers";
-import NoModuleAccess from "./pages/NoModuleAccess";
 import OrderScreenUser from "./pages/OrderScreenUser";
 import { UserContextProvider } from "./contexts/UserContext";
 import { AdminContextProvider } from "./contexts/AdminContext";
 import OrderScreenAdmin from "./pages/OrderScreenAdmin";
-import { useState } from "react";
+
 const App = () => {
-  const [user] = useState(getUserDetails)
-
-
   return (
     <>
       <Navbar />
@@ -23,40 +17,29 @@ const App = () => {
         <Route path="/" element={<AppLayout />}>
           <Route index element={<Navigate to="/Account/Auth" />} />
           <Route path="/Account/Auth" element={<AuthScreen />} />
-          <Route element={<RequireAuth />}>
+          <Route element={<RequireAuth Role="User" />}>
             <Route
               path="/Orders"
               element={
-                !user?.isAdmin ? (
-                  <UserContextProvider>
-                    <OrderScreenUser />
-                  </UserContextProvider>
-                ) : (
-                  <NoModuleAccess />
-                )
+                <UserContextProvider>
+                  <OrderScreenUser />
+                </UserContextProvider>
               }
             />
           </Route>
-          <Route element={<RequireAuth />}>
+          <Route element={<RequireAuth Role="Admin" />}>
             <Route
               path="/AdminPanel"
               element={
-                user?.isAdmin ? (
-                  <AdminContextProvider>
-                    <OrderScreenAdmin/>
-                  </AdminContextProvider>
-                ) : (
-                  <NoModuleAccess />
-                )
+                <AdminContextProvider>
+                  <OrderScreenAdmin />
+                </AdminContextProvider>
               }
             />
           </Route>
 
-          <Route element={<RequireAuth />}>
-            <Route
-              path="/CreateOrder"
-              element={!user?.isAdmin ? <CreateOrder /> : <NoModuleAccess />}
-            />
+          <Route element={<RequireAuth Role="User" />}>
+            <Route path="/CreateOrder" element={<CreateOrder />} />
           </Route>
         </Route>
       </Routes>

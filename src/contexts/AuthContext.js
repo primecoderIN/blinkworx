@@ -94,8 +94,8 @@ export const AuthProvider = ({ children }) => {
           dispatch({ type: HIDE_SPINNER });
           const token = response.data.Token;
           localStorage.setItem("Token", JSON.stringify(token));
-          const { isAdmin } = jwt_decode(token);
-           isAdmin? navigate("/AdminPanel")  : navigate("/orders");
+          const { Role } = jwt_decode(token);
+           Role==="Admin"? navigate("/AdminPanel")  : navigate("/orders");
           dispatch({ type: SET_IS_LOGGED_IN_TRUE });
         }
       } catch (e) {
@@ -123,10 +123,10 @@ export const AuthProvider = ({ children }) => {
         });
         if (response.data && response.status === 200) {
           const token = response.data.Token;
-          const { isAdmin } = jwt_decode(token);
+          const { Role } = jwt_decode(token);
           localStorage.setItem("Token", JSON.stringify(token));
           dispatch({ type: SET_IS_LOGGED_IN_TRUE });
-           isAdmin
+           Role==="Admin"
             ? navigate("/AdminPanel")
             : navigate("/orders");
         }

@@ -16,6 +16,7 @@ import {
 import { useNavigate } from "react-router-dom";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
+import { getLocalDateTime } from "../utils/helpers";
 
 const Search = styled("div")(({ theme }) => ({
   backgroundColor: "white",
@@ -96,14 +97,14 @@ const OrderTable = ({
                     </Stack>
                   </StyledTableCell>
                   <StyledTableCell align="right">
-                    {(order.countOfItemTypes.Electronics / orders.length) * 100}
+                    {(order.countOfItemTypes.Electronics / (order.countOfItemTypes.Electronics+order.countOfItemTypes.Groceries)) * 100}
                     %
                   </StyledTableCell>
                   <StyledTableCell align="right">
                     {order.createdBy || "N/A"}
                   </StyledTableCell>
                   <StyledTableCell align="right">
-                    {order.createdAt}
+                    {order.createdAt && getLocalDateTime(order.createdAt)}
                   </StyledTableCell>
                   <StyledTableCell align="center">
                     <IconButton>
