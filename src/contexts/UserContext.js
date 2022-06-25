@@ -5,7 +5,7 @@ import {
   useEffect,
   useCallback,
 } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import {
   HANDLE_ORDER,
   HANDLE_ORDER_DESCRIPTION,
@@ -37,18 +37,21 @@ export const UserContextProvider = ({ children }) => {
   const [state, dispatch] = useReducer(AppReducer, initialState);
   const { axiosRequests } = useAuthContext();
   const navigate = useNavigate();
+  const location = useLocation();
   const handleCreatedOrder = (id, entry) => {
     dispatch({ type: HANDLE_ORDER, payload: { id, entry } });
   };
 
   useEffect(() => {
-    axiosRequests
-      .get("/orders")
-      .then(({ data: { allOrders } }) =>
-        dispatch({ type: SAVE_USER_SCREEN_ORDER_DATA, payload: allOrders })
-      )
-      .catch((err) => console.log(err));
-  }, []);
+    if (location.pathname === "/orders") {
+      axiosRequests
+        .get("/orders")
+        .then(({ data: { allOrders } }) =>
+          dispatch({ type: SAVE_USER_SCREEN_ORDER_DATA, payload: allOrders })
+        )
+        .catch((err) => console.log(err));
+    }
+  }, [location.pathname]);
 
   const handleOrderDescription = (e) => {
     dispatch({ type: HANDLE_ORDER_DESCRIPTION, payload: e.target.value });
