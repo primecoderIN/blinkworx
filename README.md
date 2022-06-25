@@ -30,6 +30,10 @@ Password: 9582079478
 
 Only user can see this order scren and create order. 
 
+You can use this credential to see user screen : 
+User ID: sujeet@gmail.com
+Password : 123
+
 
 
 
