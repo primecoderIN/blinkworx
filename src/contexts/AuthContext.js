@@ -1,10 +1,5 @@
 import jwt_decode from "jwt-decode";
-import {
-  createContext,
-  useContext,
-  useReducer,
-  useEffect,
-} from "react";
+import { createContext, useContext, useReducer, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import AuthReducer from "../reducers/AuthReducer";
 import { create } from "axios";
@@ -40,7 +35,7 @@ export const AuthProvider = ({ children }) => {
   }, [state.isLoggedIn]);
 
   const logout = () => {
-    console.log("hello")
+    console.log("hello");
     dispatch({ type: SET_IS_LOGGED_IN_FALSE });
     localStorage.removeItem("Token");
     navigate("/Account/Auth", { state: { from: location } });
@@ -50,8 +45,6 @@ export const AuthProvider = ({ children }) => {
     baseURL: "https://primecoderapi.herokuapp.com/api/v1",
     headers: { "Content-Type": "application/json" },
   });
-
- 
 
   axiosRequests.interceptors.request.use((config) => {
     const accessToken = localStorage.getItem("Token");
@@ -94,7 +87,7 @@ export const AuthProvider = ({ children }) => {
           const token = response.data.Token;
           localStorage.setItem("Token", JSON.stringify(token));
           const { Role } = jwt_decode(token);
-           Role==="Admin"? navigate("/AdminPanel")  : navigate("/orders");
+          Role === "Admin" ? navigate("/AdminPanel") : navigate("/orders");
           dispatch({ type: SET_IS_LOGGED_IN_TRUE });
         }
       } catch (e) {
@@ -125,9 +118,7 @@ export const AuthProvider = ({ children }) => {
           const { Role } = jwt_decode(token);
           localStorage.setItem("Token", JSON.stringify(token));
           dispatch({ type: SET_IS_LOGGED_IN_TRUE });
-           Role==="Admin"
-            ? navigate("/AdminPanel")
-            : navigate("/orders");
+          Role === "Admin" ? navigate("/AdminPanel") : navigate("/orders");
         }
         dispatch({ type: HIDE_SPINNER });
       } catch (e) {
@@ -141,7 +132,15 @@ export const AuthProvider = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ ...state, handleLogin, handleRegistration,logout,axiosRequests }}>
+    <AuthContext.Provider
+      value={{
+        ...state,
+        handleLogin,
+        handleRegistration,
+        logout,
+        axiosRequests,
+      }}
+    >
       {children}
     </AuthContext.Provider>
   );
