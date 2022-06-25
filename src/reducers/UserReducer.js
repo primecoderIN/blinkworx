@@ -1,4 +1,5 @@
 import {
+  HANDLE_CHECKBOX,
   HANDLE_ORDER,
   HANDLE_ORDER_DESCRIPTION,
   HIDE_SPINNER,
@@ -33,6 +34,33 @@ const UserReducer = (state, action) => {
       ...state,
       newOrder: { ...state.newOrder, orderDescription: action.payload },
     };
+  }
+  if (action.type === HANDLE_CHECKBOX) {
+    const { typeID, typeName } = action.payload;
+    const itemAlreadyExists = state.newOrder.itemTypes.find((item) => {
+      return item.id === typeID;
+    });
+
+    if (itemAlreadyExists) {
+      const tempItemTypes = state.newOrder.itemTypes.filter((item) => {
+        return item.id !== typeID;
+      });
+      return {
+        ...state,
+        newOrder: { ...state.newOrder, itemTypes: tempItemTypes },
+      };
+    } else {
+      return {
+        ...state,
+        newOrder: {
+          ...state.newOrder,
+          itemTypes: [
+            ...state.newOrder.itemTypes,
+            { id: typeID, itemTypeName: typeName },
+          ],
+        },
+      };
+    }
   }
   return state;
 };

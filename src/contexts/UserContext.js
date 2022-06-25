@@ -7,6 +7,7 @@ import {
 } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import {
+  HANDLE_CHECKBOX,
   HANDLE_ORDER,
   HANDLE_ORDER_DESCRIPTION,
   HIDE_SPINNER,
@@ -44,7 +45,7 @@ export const UserContextProvider = ({ children }) => {
   const handleCreatedOrder = (id, entry) => {
     dispatch({ type: HANDLE_ORDER, payload: { id, entry } });
   };
-
+console.log(state.newOrder.allItems)
   useEffect(() => {
     if (location.pathname === "/orders") {
       dispatch({type: SHOW_SPINNER})
@@ -58,6 +59,10 @@ export const UserContextProvider = ({ children }) => {
         .catch((err) => dispatch({type: HIDE_SPINNER}));
     }
   }, [location.pathname]);
+
+  const handleCheckbox = (typeID,typeName)=> {
+    dispatch({type: HANDLE_CHECKBOX, payload: {typeID,typeName} })
+  }
 
   const handleOrderDescription = (e) => {
     dispatch({ type: HANDLE_ORDER_DESCRIPTION, payload: e.target.value });
@@ -81,6 +86,7 @@ export const UserContextProvider = ({ children }) => {
         createOrder,
         handleCreatedOrder,
         handleOrderDescription,
+        handleCheckbox
       }}
     >
       {children}
