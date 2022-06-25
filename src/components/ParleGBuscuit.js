@@ -10,9 +10,10 @@ const ParleGBiscuit = () => {
     itemSpecifications: null,
   });
 
-  const { handleCreatedOrder } = useUserContext();
+  const { handleCreatedOrder, removeUncheckedItems} = useUserContext();
   useEffect(() => {
     handleCreatedOrder(3, biscuit);
+    return ()=>  removeUncheckedItems(3)
   }, [biscuit]);
   return null;
 };

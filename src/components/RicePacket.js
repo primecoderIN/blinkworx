@@ -15,9 +15,10 @@ const RicePacket = () => {
     },
   });
 
-  const { handleCreatedOrder } = useUserContext();
+  const { handleCreatedOrder, removeUncheckedItems } = useUserContext();
   useEffect(() => {
     handleCreatedOrder(4, rice);
+    return ()=>  removeUncheckedItems(4)
   }, [rice]);
   return (
     <Stack direction="row" py={3} width="50%">

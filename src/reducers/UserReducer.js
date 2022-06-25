@@ -3,6 +3,7 @@ import {
   HANDLE_ORDER,
   HANDLE_ORDER_DESCRIPTION,
   HIDE_SPINNER,
+  REMOVE_UNCHECKED_ITEMS,
   SAVE_USER_SCREEN_ORDER_DATA,
   SHOW_SPINNER,
 } from "../actions/user-context";
@@ -62,6 +63,15 @@ const UserReducer = (state, action) => {
       };
     }
   }
+
+  if (action.type === REMOVE_UNCHECKED_ITEMS) {
+    const tempItems = state.newOrder.allItems.filter((item) => {
+      return item.id !== action.payload;
+    });
+    return { ...state, newOrder: { ...state.newOrder, allItems: tempItems } };
+  }
+
+
   return state;
 };
 

@@ -14,10 +14,11 @@ const ApplePhone = () => {
       color: "RED",
     },
   });
-  const { handleCreatedOrder } = useUserContext();
+  const { handleCreatedOrder, removeUncheckedItems } = useUserContext();
 
   useEffect(() => {
     handleCreatedOrder(1, phone);
+    return ()=>  removeUncheckedItems(1)
   }, [phone]);
 
   const selectPhoneMemory = (memory) => {

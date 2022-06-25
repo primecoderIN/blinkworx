@@ -12,9 +12,11 @@ const AndroidPhone = () => {
       memory: "512GB",
     },
   });
-  const { handleCreatedOrder } = useUserContext();
+  const { handleCreatedOrder, removeUncheckedItems } = useUserContext();
   useEffect(() => {
     handleCreatedOrder(2, phone);
+
+    return ()=>  removeUncheckedItems(2)
   }, [phone]);
 
   const selectPhoneMemory = (memory) => {

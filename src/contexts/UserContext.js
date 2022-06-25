@@ -11,6 +11,7 @@ import {
   HANDLE_ORDER,
   HANDLE_ORDER_DESCRIPTION,
   HIDE_SPINNER,
+  REMOVE_UNCHECKED_ITEMS,
   SAVE_USER_SCREEN_ORDER_DATA,
   SHOW_SPINNER,
 } from "../actions/user-context";
@@ -45,24 +46,27 @@ export const UserContextProvider = ({ children }) => {
   const handleCreatedOrder = (id, entry) => {
     dispatch({ type: HANDLE_ORDER, payload: { id, entry } });
   };
-console.log(state.newOrder.allItems)
+
   useEffect(() => {
     if (location.pathname === "/orders") {
-      dispatch({type: SHOW_SPINNER})
+      dispatch({ type: SHOW_SPINNER });
       axiosRequests
         .get("/orders")
-        .then(({ data: { allOrders } }) =>{
-          dispatch({ type: SAVE_USER_SCREEN_ORDER_DATA, payload: allOrders })
-          dispatch({type: HIDE_SPINNER})
-        }
-        )
-        .catch((err) => dispatch({type: HIDE_SPINNER}));
+        .then(({ data: { allOrders } }) => {
+          dispatch({ type: SAVE_USER_SCREEN_ORDER_DATA, payload: allOrders });
+          dispatch({ type: HIDE_SPINNER });
+        })
+        .catch((err) => dispatch({ type: HIDE_SPINNER }));
     }
   }, [location.pathname]);
 
-  const handleCheckbox = (typeID,typeName)=> {
-    dispatch({type: HANDLE_CHECKBOX, payload: {typeID,typeName} })
-  }
+  const removeUncheckedItems = (Id) => {
+    dispatch({ type: REMOVE_UNCHECKED_ITEMS, payload: Id });
+  };
+
+  const handleCheckbox = (typeID, typeName) => {
+    dispatch({ type: HANDLE_CHECKBOX, payload: { typeID, typeName } });
+  };
 
   const handleOrderDescription = (e) => {
     dispatch({ type: HANDLE_ORDER_DESCRIPTION, payload: e.target.value });
@@ -86,7 +90,8 @@ console.log(state.newOrder.allItems)
         createOrder,
         handleCreatedOrder,
         handleOrderDescription,
-        handleCheckbox
+        handleCheckbox,
+        removeUncheckedItems,
       }}
     >
       {children}
