@@ -19,23 +19,10 @@ Admin can not see user screen when logged in and users can not see admin screen 
 
 Admin can not create any order. But admin can see all the orders from all the users
 
-You can use these credentials to access admin panel.
-
-Email : primecoderin@gmai.com
-
-Password : 9582079478
-
-
-
 ### `User Screens`
 
 Only user can see this order screen and create order. Created by column in order table will be "N/A" for users as they already know that they created it.
 
-You can use this credential to see user screen : 
-
-Email : sujeet@gmail.com
-
-Password : 123
 
 
 
